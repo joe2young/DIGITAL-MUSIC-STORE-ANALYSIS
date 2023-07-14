@@ -111,6 +111,7 @@ hholy@gmail.com | Helena | Holý | Rock
 hleacock@gmail.com | Heather | Leacock | Rock
 hughoreilly@apple.ie | Hugh | O'Reilly | Rock
 isabelle_mercier@apple.fr | Isabelle | Mercier | Rock
+.......
 ---
 
 ### QUESTION 7: LET'S INVITE THE ARTIST WHO HAVE WRITTEN THE MOST ROCK MUSIC IN OUR DATASET. WRITE A QUERY THAT RETURNS THE ARTIST NAME AND TOTAL TRACK COUNT OF THE TOP 10 ROCK BANDS

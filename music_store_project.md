@@ -186,12 +186,12 @@ Three Minutes |	2763666
 Hero |	2713755
 One of Them | 2698791
 How to Stop an Exploding Man |	2687103
-The Long Con 	2679583
+The Long Con |	2679583
 Live Together, Die Alone, Pt. 2 |	2656531
-S.O.S. |	2639541
-One of Us |	2638096
-The Man from Tallahassee |	2637637
-The Cost of Living |	2637500
+S.O.S. |  2639541
+One of Us | 2638096
+The Man from Tallahassee | 2637637
+The Cost of Living | 2637500
 The Glass Ballerina | 2637458
 .....
 ---
@@ -283,3 +283,46 @@ Argentina | Rock |	17
 ---
 
 ### QUESTION 11: WRITE A QUERY THAT DETERMINES THE CUSTOMER THAT HAS SPENT THE MOST ON MUSIC FOR EACH COUNTRY, WRITE A QUERY THAT RETURNS THE COUNTRY ALONG WITH THE TOP  CUTOMER AND HOW MUCH THEY SPENT. FOR COUNTRIES WHERE THE TOP AMOUNT SPENT IS SHARED, PROVIDE ALL CUSTOMERS WHO SPENT THIS AMOUNT
+```sql
+WITH top_customer AS (
+	SELECT customer.customer_id, customer.first_name, customer.last_name,
+	customer.country, SUM(invoice.total) AS money_spent,
+	ROW_NUMBER() OVER (PARTITION BY customer.country ORDER BY SUM(invoice.total) DESC )
+	AS row_num
+	FROM invoice
+	JOIN customer ON invoice.customer_id= customer.customer_id
+	GROUP BY customer.customer_id
+	ORDER BY 4
+)
+SELECT top_customer.country, top_customer.first_name, top_customer.last_name,
+top_customer.money_spent FROM top_customer
+WHERE row_num= 1
+```
+### Output
+country | first_name | last_name | money_spent
+-- | -- | -- | --
+Argentina | Diego | Gutiérrez | 39.6
+Australia | Mark | Taylor | 81.18
+Austria | Astrid | ruber | 69.3
+Belgium | Daan | Peeters | 60.38999999999999
+Brazil | Luís | Gonçalves | 108.89999999999998
+Canada | François | remblay | 99.99
+Chile | Luis | Rojas | 97.02000000000001
+Czech Republic | R | Madhav | 144.54000000000002
+Denmark | Kara | Nielsen | 37.61999999999999
+Finland | Terhi | Hämäläinen | 79.2
+France | Wyatt | Girard | 99.99
+Germany | Fynn  | Zimmermann | 94.05000000000001
+Hungary | Ladislav |  Kovács | 78.21
+India | Manoj | Pareek | 111.86999999999999
+Ireland | Hugh | O'Reilly | 14.83999999999997
+Italy | Lucas | Mancini | 50.49
+Netherlands | Johannes | Van der Berg | 65.34
+Norway | Bjørn | Hansen | 72.27000000000001
+Poland | Stanisław | Wójcik | 76.22999999999999
+Portugal | João | Fernandes | 102.96000000000001
+Spain | Enrique | Muñoz | 98.01
+Sweden | Joakim | Johansson  | 75.24
+United Kingdom | Phil |  Hughes | 98.01
+USA | Jack | Smith | 98.01
+---
